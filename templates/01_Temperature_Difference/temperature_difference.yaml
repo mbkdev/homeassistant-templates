@@ -1,0 +1,19 @@
+- sensor:
+    - name: "Temperature_Difference_Inside_Outside"
+      unit_of_measurement: "°C"
+      device_class: "temperature"
+      unique_id: sensor_temperature_difference_inside_outside
+
+      state: >
+        {% set temperatureInsideDevice = 'INSERT_TEMPERATURE_SENSOR_0' %}
+        {% set temperatureOutsideDevice = 'INSERT_TEMPERATURE_SENSOR_1' %}
+
+        {% set temperatureInside  = states(temperatureInsideDevice)|float %}
+        {% set temperatureOutside = states(temperatureOutsideDevice)|float %}
+        {% set difference = temperatureInside - temperatureOutside %}
+
+        {% if (difference < 0) %}
+            {% set difference = difference * -1 %}
+        {% endif %}
+
+        {{ difference| round(2) }}
